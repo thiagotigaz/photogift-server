@@ -1,0 +1,84 @@
+buildscript {
+	ext {
+		springBootVersion = '1.0.2.RELEASE'
+	}
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '1.0'
+
+war {
+    baseName = 'potlach-server'
+    version =  '1.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-release" }
+    
+    flatDir {
+    	dirs 'lib'
+    }
+}
+
+configurations {
+    provided
+}
+
+dependencies {
+    //compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    //compile("org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+    
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-aop:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    compile("org.springframework.data:spring-data-rest-webmvc")
+    
+    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
+    compile("org.springframework.security.oauth:spring-security-oauth2:2.0.3.RELEASE")
+    compile("org.springframework.security.oauth:spring-security-oauth2-javaconfig:1.0.0.M1")
+    
+    compile("org.hibernate:hibernate-core:4.3.6.Final")
+    compile("org.postgresql:postgresql:9.3-1102-jdbc41")
+    
+    compile("org.apache.httpcomponents:httpclient:4.3.4")
+    compile("com.squareup.retrofit:retrofit:1.6.0")
+    
+    compile ('com.amazonaws:aws-java-sdk:1.9.1')
+    
+    
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
